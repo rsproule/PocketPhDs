@@ -1,0 +1,179 @@
+PODS:
+  - Firebase/Auth (4.8.0):
+    - Firebase/Core
+    - FirebaseAuth (= 4.4.1)
+  - Firebase/Core (4.8.0):
+    - FirebaseAnalytics (= 4.0.5)
+    - FirebaseCore (= 4.0.13)
+  - Firebase/Database (4.8.0):
+    - Firebase/Core
+    - FirebaseDatabase (= 4.1.3)
+  - Firebase/Messaging (4.8.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 2.0.8)
+  - Firebase/Storage (4.8.0):
+    - Firebase/Core
+    - FirebaseStorage (= 2.1.1)
+  - firebase_analytics (0.0.1):
+    - Firebase/Core
+    - Flutter
+  - firebase_auth (0.0.1):
+    - Firebase/Auth
+    - Firebase/Core
+    - Flutter
+  - firebase_core (0.0.1):
+    - Firebase/Core
+    - Flutter
+  - firebase_database (0.0.1):
+    - Firebase/Database
+    - Flutter
+  - firebase_messaging (0.0.1):
+    - Firebase/Core
+    - Firebase/Messaging
+    - Flutter
+  - firebase_storage (0.0.1):
+    - Firebase/Storage
+    - Flutter
+  - FirebaseAnalytics (4.0.5):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseAuth (4.4.1):
+    - FirebaseAnalytics (~> 4.0)
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseCore (4.0.13):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseDatabase (4.1.3):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - leveldb-library (~> 1.18)
+  - FirebaseInstanceID (2.0.8):
+    - FirebaseCore (~> 4.0)
+  - FirebaseMessaging (2.0.8):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
+  - FirebaseStorage (2.1.1):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - Flutter (1.0.0)
+  - flutter_webview_plugin (0.0.1):
+    - Flutter
+  - google_sign_in (0.0.1):
+    - Flutter
+    - GoogleSignIn (~> 4.0)
+  - GoogleSignIn (4.1.1):
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/DebugUtils (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - GoogleToolboxForMac/Defines (2.1.3)
+  - GoogleToolboxForMac/Logger (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - GoogleToolboxForMac/NSData+zlib (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.3)
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
+  - GTMOAuth2 (1.1.6):
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.1.12):
+    - GTMSessionFetcher/Full (= 1.1.12)
+  - GTMSessionFetcher/Core (1.1.12)
+  - GTMSessionFetcher/Full (1.1.12):
+    - GTMSessionFetcher/Core (= 1.1.12)
+  - image_picker (0.0.1):
+    - Flutter
+  - leveldb-library (1.20)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
+  - Protobuf (3.5.0)
+  - url_launcher (0.0.1):
+    - Flutter
+  - video_launcher (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - firebase_analytics (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-0.2.0/ios`)
+  - firebase_auth (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.4.0/ios`)
+  - firebase_core (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.0.2/ios`)
+  - firebase_database (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.3.1/ios`)
+  - firebase_messaging (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.1.0/ios`)
+  - firebase_storage (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_storage-0.1.0/ios`)
+  - Flutter (from `/Users/ryansproule/Documents/FlutterApps/flutter/bin/cache/artifacts/engine/ios`)
+  - flutter_webview_plugin (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/flutter_webview_plugin-0.0.9+1/ios`)
+  - google_sign_in (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/google_sign_in-2.0.0/ios`)
+  - image_picker (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/image_picker-0.2.0/ios`)
+  - url_launcher (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/url_launcher-2.0.0/ios`)
+  - video_launcher (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/video_launcher-0.3.0/ios`)
+
+EXTERNAL SOURCES:
+  firebase_analytics:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-0.2.0/ios
+  firebase_auth:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.4.0/ios
+  firebase_core:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.0.2/ios
+  firebase_database:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.3.1/ios
+  firebase_messaging:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.1.0/ios
+  firebase_storage:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_storage-0.1.0/ios
+  Flutter:
+    :path: /Users/ryansproule/Documents/FlutterApps/flutter/bin/cache/artifacts/engine/ios
+  flutter_webview_plugin:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/flutter_webview_plugin-0.0.9+1/ios
+  google_sign_in:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/google_sign_in-2.0.0/ios
+  image_picker:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/image_picker-0.2.0/ios
+  url_launcher:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/url_launcher-2.0.0/ios
+  video_launcher:
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/video_launcher-0.3.0/ios
+
+SPEC CHECKSUMS:
+  Firebase: 710decbbc6d9d48530e9a5dba3209740c3532e05
+  firebase_analytics: e14732ea6575c050175fa09e07358db87842dbe3
+  firebase_auth: 6edaa8ccd18c2804c90f57aba1f24e05fc25282f
+  firebase_core: eb268bd12c0dee772a32da6fa7f8f8019cbbd89e
+  firebase_database: 8d50f5c188b769afc186b0a700b2c6cdb8208df9
+  firebase_messaging: fefba2d88127ac1d6b6cbc63b7152ce666ce3ec9
+  firebase_storage: eb8091489a1cfb657eeefc933bb1ccfab23195a3
+  FirebaseAnalytics: 5b02a63ead2c3f0259cfc7f15e053e440587ecf8
+  FirebaseAuth: dc0dd403beca5b2b016aac89c2d0b8dad1c81926
+  FirebaseCore: 3c02ec652db3d03fdc8bc6d9154af3e20d64b6f5
+  FirebaseDatabase: 7088bfc4af2cc00231bb36e1404fc2d7509eb4dc
+  FirebaseInstanceID: 81df5805a08001e69138664bdd02c6719a9ac80f
+  FirebaseMessaging: dfdcd307c2382290a1e297a81d0f18370f5b1bcd
+  FirebaseStorage: ab08d1c93a2feffa038fdd6693088b310ab1e6c6
+  Flutter: d674e78c937094a75ac71dd77e921e840bea3dbf
+  flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
+  google_sign_in: 24ea34feed2d7d04e957cd1c4daf063c488532c2
+  GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
+  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
+  GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
+  GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
+  image_picker: a211f28b95a560433c00f5cd3773f4710a20404d
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
+  video_launcher: 2420baaa0ce4ae07ff2ea6661766558bb655389f
+
+PODFILE CHECKSUM: e85d9d944605f17c0d87e22ef6c599612c77ab8f
+
+COCOAPODS: 1.3.1

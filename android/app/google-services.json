@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "548424482224",
+    "firebase_url": "https://pocket-phds.firebaseio.com",
+    "project_id": "pocket-phds",
+    "storage_bucket": "pocket-phds.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548424482224:android:c1dc1d4ff5958903",
+        "android_client_info": {
+          "package_name": "com.yourcompany.pocketphd2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548424482224-1oqf3vdk0ljtj1bj29v2v2unbm5v28is.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourcompany.pocketphd2",
+            "certificate_hash": "f6146daa9a52d643a482c1feb446b8aff2b27817"
+          }
+        },
+        {
+          "client_id": "548424482224-r5lvcp7ssvarpv31h0ohqouhiqpajhua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh8Qlk15eG2bcJyRClu3iSWAYHodElRPY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548424482224-r5lvcp7ssvarpv31h0ohqouhiqpajhua.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "548424482224-b1ltcjddr11ikp4n871d4cs4gnr5na03.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ryansprouleapps.pocketphds"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548424482224:android:8254c5cb22b2ca1b",
+        "android_client_info": {
+          "package_name": "com.yourcompany.pocketphds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548424482224-cdoattrk53vscgja8k26oho732cv22ke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourcompany.pocketphds",
+            "certificate_hash": "f6146daa9a52d643a482c1feb446b8aff2b27817"
+          }
+        },
+        {
+          "client_id": "548424482224-r5lvcp7ssvarpv31h0ohqouhiqpajhua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh8Qlk15eG2bcJyRClu3iSWAYHodElRPY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548424482224-r5lvcp7ssvarpv31h0ohqouhiqpajhua.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "548424482224-b1ltcjddr11ikp4n871d4cs4gnr5na03.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ryansprouleapps.pocketphds"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
