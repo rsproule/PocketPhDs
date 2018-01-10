@@ -68,7 +68,7 @@ class _MultipleChoiceQuestionState extends State<MultipleChoiceQuestion> {
     s = widget.question.response.ref.onValue.listen((e) {
       var val = e.snapshot.value;
       setState(() {
-            print(val);
+            // print(val);
             setState(() {
               currentChoice = val;
             });

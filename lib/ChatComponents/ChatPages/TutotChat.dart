@@ -92,8 +92,7 @@ class TutorChatList extends StatelessWidget {
           itemBuilder: (_, snapshot, animation, index){
             DateTime timestamp = new DateTime.fromMillisecondsSinceEpoch(snapshot.value['timestamp']);
             bool isActive = snapshot.value['isActive'] != null ? snapshot.value['isActive'] : false;
-
-            if(isActive && filter(snapshot)){
+            if(isActive && this.filter(snapshot)){
               return new Column(
                 children: <Widget>[
                   new ListTile(

@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pocketphds/ImageView.dart';
+import 'package:pocketphds/PlatformSpecificWidgets.dart';
 import 'package:pocketphds/User.dart';
 
 class UserPage extends StatefulWidget {
@@ -21,7 +22,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-
   @override
   Widget build(BuildContext context) {
     return new ListView(
@@ -29,9 +29,7 @@ class _UserPageState extends State<UserPage> {
         new Header(
           user: widget.currentUser,
         ),
-
         new Divider(),
-
       ],
     );
   }
@@ -47,7 +45,6 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-
   File newImage;
   String profileImageUrl;
 
@@ -55,23 +52,25 @@ class _HeaderState extends State<Header> {
     File image = await _getImage();
 
     if (image != null) {
-      setState((){
+      setState(() {
         newImage = image;
       });
       //upload to firebase
       int random = new Random().nextInt(1000000);
       String filename = "prof_" + random.toString() + ".jpg";
 
-
-      StorageReference ref = FirebaseStorage.instance.ref().child(
-          "profileImages/$filename");
+      StorageReference ref =
+          FirebaseStorage.instance.ref().child("profileImages/$filename");
 
       StorageUploadTask uploadTask = ref.put(image);
 
       Uri imgUrl = (await uploadTask.future).downloadUrl;
 
-      DatabaseReference dbRef = FirebaseDatabase.instance.reference().child(
-          "users").child(widget.user.userID).child("profileUrl");
+      DatabaseReference dbRef = FirebaseDatabase.instance
+          .reference()
+          .child("users")
+          .child(widget.user.userID)
+          .child("profileUrl");
 
       dbRef.set(imgUrl.toString());
     }
@@ -86,19 +85,24 @@ class _HeaderState extends State<Header> {
         return img;
       }
     } catch (e) {
-//      print("No image selected");
+//      // print("No image selected");
     }
   }
 
   StreamSubscription s;
 
-  initState(){
+  initState() {
     super.initState();
 
-    s = FirebaseDatabase.instance.reference().child(
-        "users").child(widget.user.userID).child("profileUrl").onValue.listen((e){
+    s = FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .child(widget.user.userID)
+        .child("profileUrl")
+        .onValue
+        .listen((e) {
       DataSnapshot s = e.snapshot;
-      setState((){
+      setState(() {
         profileImageUrl = s.value;
       });
     });
@@ -127,16 +131,17 @@ class _HeaderState extends State<Header> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     ImageProvider photo = profileImageUrl != null
         ? new NetworkImage(profileImageUrl)
-        : this.newImage != null ? new Image.file(newImage) : new AssetImage("images/loader.gif");
+        : this.newImage != null
+            ? new Image.file(newImage)
+            : new AssetImage("images/loader.gif");
 
-    TextStyle titleTheme = Theme
-        .of(context)
-        .textTheme
-        .title;
+    TextStyle titleTheme = Theme.of(context).textTheme.title;
 
     Widget _name = new Text(
       widget.user.name,
@@ -155,34 +160,35 @@ class _HeaderState extends State<Header> {
                   child: new CircleAvatar(
                     radius: 50.0,
                     backgroundImage: photo,
-                    child: this.newImage==null && this.profileImageUrl==null ? new Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 40.0,
-                    ) : new Container(),
+                    child: this.newImage == null && this.profileImageUrl == null
+                        ? new Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 40.0,
+                          )
+                        : new Container(),
                   ),
                 ),
                 onTap: () {
-                  photo.runtimeType != Container ? showPhoto(context, photo, "ProfilePicture" ) : null;
+                  photo.runtimeType != Container
+                      ? showPhoto(context, photo, "ProfilePicture")
+                      : null;
                 },
               ),
               new Container(
                   padding: const EdgeInsets.all(5.0),
                   child: new FlatButton(
                       child: new Text("Change Photo"),
-                      onPressed: _changePhoto
-                  )),
+                      onPressed: _changePhoto)),
             ],
           ),
           new Divider(
             color: Colors.transparent,
           ),
           _name,
-          new Text(widget.user.firebase_user.email)
+          new Text(widget.user.firebase_user.email),
         ],
       ),
     );
   }
 }
-
-

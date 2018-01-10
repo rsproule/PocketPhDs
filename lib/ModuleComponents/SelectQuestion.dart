@@ -76,7 +76,7 @@ class _SelectQuestionState extends State<SelectQuestion> {
 
     s = widget.question.response.ref.onValue.listen((e) {
      var val = e.snapshot.value;
-      print(val);
+      // print(val);
       val.forEach((k, v){
         setState((){
           selected[k] = v;

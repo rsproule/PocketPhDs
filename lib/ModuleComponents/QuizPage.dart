@@ -69,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
 
       int questionKey = 0;
       for (var DBQ in questions) {
-        print(DBQ);
+        // print(DBQ);
 
         /// get the users responses for each of these
         DatabaseReference responseReference = FirebaseDatabase.instance

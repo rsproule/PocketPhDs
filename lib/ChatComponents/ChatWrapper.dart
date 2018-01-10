@@ -10,9 +10,7 @@ import 'package:pocketphds/User.dart';
 import 'package:pocketphds/utils/LoginUtils.dart';
 
 class ChatWrapper extends StatefulWidget {
-  ChatWrapper({this.scaffoldKey});
 
-  final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
   _ChatWrapperState createState() => new _ChatWrapperState();
@@ -74,7 +72,6 @@ class _ChatWrapperState extends State<ChatWrapper> {
     };
 
     return new Scaffold(
-        key: widget.scaffoldKey,
         appBar: new AppBar(
           title: new Text("Chat"),
         ),

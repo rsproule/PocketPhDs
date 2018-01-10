@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:pocketphds/ChatComponents/ChatWrapper.dart';
 import 'package:pocketphds/Homepages/HomeWrapper.dart';
 import 'package:pocketphds/ModuleComponents/ModuleWrapper.dart';
+import 'package:pocketphds/PlatformSpecificWidgets.dart';
 
 import 'package:pocketphds/ProfilePageComponents/ProfileWrapper.dart';
 import 'package:pocketphds/utils/LoginUtils.dart';
-
 
 void main() => runApp(new MyHomePage());
 
@@ -19,33 +19,64 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+//  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   FirebaseUser currentUser;
 
+  modal(String message, String route) {
+    showModalBottomSheet<Null>(
+        context: context,
+        builder: (BuildContext context) {
+          return new Container(
+              child: new Padding(
+                  padding: const EdgeInsets.all(22.0),
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Text("New Chat: Hey man",
+                            textAlign: TextAlign.left),
+                      ),
+                      new PlatformButton(
+                        child: new Text("View"),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacementNamed(route);
+                        },
+                      )
+                    ],
+                  )));
+        });
+  }
 
-  void initState(){
+  void initState() {
     super.initState();
-
-
 
     /// Initialize the notification system
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         String msg = message['alert']['body'];
-        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-            content: new Text("New Chat: $msg"),
-            action: new SnackBarAction(
-                label: "View",
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed("/chat");
-                })));
+        String head = message['alert']['title'];
+        if (head == "New Chat Message") {
+          modal(msg, '/chat');
+        } else {
+          modal(msg, '/modules');
+        }
       },
       onLaunch: (Map<String, dynamic> message) {
-        Navigator.of(context).pushReplacementNamed("/chat");
+        String head = message['alert']['title'];
+        if (head == "New Chat Message") {
+          Navigator.of(context).pushReplacementNamed("/chat");
+        } else {
+          Navigator.of(context).pushReplacementNamed("/modules");
+        }
       },
       onResume: (Map<String, dynamic> message) {
-        Navigator.of(context).pushReplacementNamed("/chat");
+        String head = message['alert']['title'];
+        if (head == "New Chat Message") {
+          Navigator.of(context).pushReplacementNamed("/chat");
+        } else {
+          Navigator.of(context).pushReplacementNamed("/modules");
+        }
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -54,28 +85,30 @@ class _MyHomePageState extends State<MyHomePage> {
     // This is the only part that need the user id
     _firebaseMessaging.getToken().then((String token) {
       assert(token != null);
-      ensureLoggedIn(currentUser, context).then((fbUser){
+      ensureLoggedIn(currentUser, context).then((fbUser) {
         // update the database to hold the user specific notification token
-        FirebaseDatabase.instance.reference().child("users").child(fbUser.uid).child("notificationToken").set(token);
+        FirebaseDatabase.instance
+            .reference()
+            .child("users")
+            .child(fbUser.uid)
+            .child("notificationToken")
+            .set(token);
       });
     });
-
-
-
   }
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: new ThemeData(
-          primarySwatch: Colors.blueGrey,
-          backgroundColor: Colors.blue.withOpacity(.4),
+        primarySwatch: Colors.blueGrey,
+        backgroundColor: Colors.blue.withOpacity(.4),
       ),
       home: new Home(),
       routes: <String, WidgetBuilder>{
-        '/chat': (BuildContext context) => new ChatWrapper(scaffoldKey: _scaffoldKey),
-        '/modules': (BuildContext context) => new ModuleWrapper(scaffoldKey: _scaffoldKey),
-        '/profile': (BuildContext context) => new ProfileWrapper(scaffoldKey: _scaffoldKey)
+        '/chat': (BuildContext context) => new ChatWrapper(),
+        '/modules': (BuildContext context) => new ModuleWrapper(),
+        '/profile': (BuildContext context) => new ProfileWrapper()
       },
     );
   }

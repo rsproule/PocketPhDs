@@ -262,7 +262,10 @@ class ModuleCard extends StatelessWidget {
                     }),
               ),
               new Row(children: <Widget>[
-                new Text((value * 100).toString().substring(0, 4) + "% Complete"),
+                new Text(
+                    ( (value * 100).toString().length > 4 ?
+                    (value * 100).toString().substring(0, 4) :
+                    (value * 100).toString()) + "% Complete"),
                 new Expanded(child: new Container()),
                 dueDateMessage
               ]),

@@ -45,7 +45,7 @@ class _LoginDialogState extends State<LoginDialog> {
         });
       }
     }).catchError((error) {
-      print(error);
+      // print(error);
       setState(() {
         this.hasError = true;
         this.errorMessage = error.details;

@@ -8,9 +8,7 @@ import 'package:pocketphds/User.dart';
 import 'package:pocketphds/utils/LoginUtils.dart';
 
 class ProfileWrapper extends StatefulWidget {
-  ProfileWrapper({this.scaffoldKey});
 
-final GlobalKey<ScaffoldState> scaffoldKey;
   @override
   _ProfileWrapperState createState() => new _ProfileWrapperState();
 }
@@ -68,7 +66,6 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
 
 
     return new Scaffold(
-      key: widget.scaffoldKey,
       appBar: new AppBar(title: new Text("Profile"),),
       drawer: new AppDrawer(logOut: logOut),
       body: this.user != null ? new UserPage(currentUser: user,) : new Center(child: new CircularProgressIndicator(),),

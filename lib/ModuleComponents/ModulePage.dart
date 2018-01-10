@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pocketphds/ModuleComponents/LessonsPage.dart';
 import 'package:pocketphds/ModuleComponents/QuizPage.dart';
+import 'package:pocketphds/PlatformSpecificWidgets.dart';
 import 'package:pocketphds/User.dart';
 import 'package:pocketphds/utils/globals.dart';
 import 'package:video_launcher/video_launcher.dart';
@@ -51,13 +52,12 @@ class _ModulePageState extends State<ModulePage> {
   // Instance of WebView plugin
   final FlutterWebviewPlugin flutterWebviewPlugin = new FlutterWebviewPlugin();
 
-  Future<Null> _launchVideo(String url) async {
-
-
-
+  Future<Null> _launchVideo(BuildContext context, String url) async {
+    bool videoOpened = false;
     if (await canLaunchVideo(url)) {
       await launchVideo(url);
 
+      videoOpened = true;
       // report back that this guy has completed watching the video
       DatabaseReference ref = FirebaseDatabase.instance
           .reference()
@@ -67,11 +67,19 @@ class _ModulePageState extends State<ModulePage> {
           .child(widget.moduleKey);
       await ref.child("videoWatched").set(true);
     } else {
-      throw 'Could not launch $url';
+      showDialog(
+          context: context,
+          child: new AlertDialog(
+            title: new Text("Video not Available."),
+            actions: [new PlatformButton(
+              child: new Text("OK"),
+              onPressed: (){Navigator.of(context).pop();},
+            )],
+          ));
     }
 
     setState(() {
-      if(widget.canEdit) {
+      if (widget.canEdit && videoOpened) {
         this.videoWatched = true;
       }
     });
@@ -83,12 +91,11 @@ class _ModulePageState extends State<ModulePage> {
             fullscreenDialog: true,
             builder: (BuildContext context) {
               return new QuizPage(
-                user: widget.currentUser,
-                moduleKey: widget.moduleKey,
-                canEdit: widget.canEdit,
-                moduleName: widget.name,
-                submitted : this.quizTaken
-              );
+                  user: widget.currentUser,
+                  moduleKey: widget.moduleKey,
+                  canEdit: widget.canEdit,
+                  moduleName: widget.name,
+                  submitted: this.quizTaken);
             }));
 
     if (finished == null) return;
@@ -121,6 +128,7 @@ class _ModulePageState extends State<ModulePage> {
         .child(widget.moduleKey);
 
     DataSnapshot userModuleSnap = await userRef.once();
+
 
     DataSnapshot module = await FirebaseDatabase.instance
         .reference()
@@ -198,7 +206,7 @@ class _ModulePageState extends State<ModulePage> {
                               )
                             : new Icon(Icons.check_box_outline_blank),
                         onTap: () {
-                          _launchVideo(videoUrl);
+                          _launchVideo(context, videoUrl);
                         },
                       ),
                     ),

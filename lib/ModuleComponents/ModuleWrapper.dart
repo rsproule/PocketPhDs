@@ -9,9 +9,7 @@ import 'package:pocketphds/User.dart';
 import 'package:pocketphds/utils/LoginUtils.dart';
 
 class ModuleWrapper extends StatefulWidget {
-  ModuleWrapper({this.scaffoldKey});
 
-final GlobalKey<ScaffoldState> scaffoldKey;
   @override
   _ModuleWrapperState createState() => new _ModuleWrapperState();
 }
@@ -74,7 +72,6 @@ class _ModuleWrapperState extends State<ModuleWrapper> {
     };
 
     return new Scaffold(
-      key: widget.scaffoldKey,
       appBar: new AppBar(
         title: new Text("Brain Modules"),
       ),

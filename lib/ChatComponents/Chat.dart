@@ -33,7 +33,7 @@ class _ChatState extends State<Chat> {
   bool _onScroll(ScrollUpdateNotification n) {
     // if the scroll is beyond a certain point trigger this
 
-    // print(n.metrics.outOfRange);
+    // // print(n.metrics.outOfRange);
 
     if (n.metrics.extentBefore > 30.0) {
       // this changes the focus away from the text field..
@@ -49,7 +49,7 @@ class _ChatState extends State<Chat> {
     String imageName = snapshot.value['image'];
     String thumbName = snapshot.value['thumbnail'];
 
-    print(imageName);
+    // print(imageName);
     Map<String, String> sender = snapshot.value['sender'];
     String senderId = sender["id"];
 
@@ -122,7 +122,7 @@ class _ChatState extends State<Chat> {
         });
       }
     }).catchError((err) async {
-      print(err);
+      // print(err);
       var bytes = await rootBundle.load("images/download_error.png");
       if(this.mounted) {
         setState(() {

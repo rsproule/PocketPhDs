@@ -42,7 +42,7 @@ class _MessageComposerState extends State<MessageComposer> {
         });
       }
     } catch (e) {
-//      print("No image selected");
+//      // print("No image selected");
     }
   }
 

@@ -43,7 +43,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           errorMessage = "";
         });
       }else {
-        print("Not sent");
+        // print("Not sent");
         setState(() {
           hasError = true;
           errorMessage = "This email account does not have a Pocket PhDs account.";

@@ -101,13 +101,19 @@ Future<bool> sendMessage(
       message != "" ? message : imageFiles.length > 0 ? "[Image]" : "[File]";
 
   var users = (await chat.child("users").once()).value;
+
+  String type = (await chat.child("type").once()).value;
+  String name = (await chat.child("name").once()).value;
   users[user.userID] = true;
+  // need to set in order to trigger the notification
   await chat.set({
     "sender" : user.userID,
     "isActive" : true,
     "lastMessage" : user.name + ": " + preview,
     "timestamp" : timestamp,
-    "users" : users
+    "users" : users,
+    "type" : type,
+    "name" : name
   });
 
   return true;
