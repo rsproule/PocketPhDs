@@ -100,7 +100,6 @@ class _MessageComposerState extends State<MessageComposer> {
     sending = true;
     String msgStash = message;
     List<File> imgStash = new List.from(_imageFiles);
-    List<File> fileStash = new List.from(_files);
 
     // clear all the
     setState(() {
@@ -112,7 +111,6 @@ class _MessageComposerState extends State<MessageComposer> {
     sendMessage(
         message: msgStash,
         imageFiles: imgStash,
-        files: fileStash,
         user: widget.currentUser,
         chatKey: widget.chatKey).then((success) {
       if (success) {
@@ -120,7 +118,6 @@ class _MessageComposerState extends State<MessageComposer> {
           sending = false;
           msgStash = null;
           imgStash.clear();
-          fileStash.clear();
           error = false;
         });
       } else {
@@ -128,9 +125,8 @@ class _MessageComposerState extends State<MessageComposer> {
           sending = false;
           _messageText.text = msgStash;
           _imageFiles = imgStash;
-          _files = fileStash;
           error = true;
-          errorMsg = "Message Failed to Send. Must be under 2.5 Mb.";
+          errorMsg = "Message Failed to Send.";
         });
       }
     }).catchError((err) {
@@ -138,9 +134,8 @@ class _MessageComposerState extends State<MessageComposer> {
         sending = false;
         _messageText.text = msgStash;
         _imageFiles = imgStash;
-        _files = fileStash;
         error = true;
-        errorMsg = "Message Failed to Send. Must be under 2.5 Mb.";
+        errorMsg = "Message Failed to Send.";
       });
     });
   }
@@ -169,12 +164,6 @@ class _MessageComposerState extends State<MessageComposer> {
                   onPressed: _getImage,
                 )
               : new Container(),
-          showMultimediaButtons
-              ? new PlatformButton(
-                  child: new Icon(Icons.attach_file),
-                  onPressed: null,
-                )
-              : new Container(),
           !showMultimediaButtons
               ? new PlatformButton(
                   child: new Icon(Icons.chevron_right), onPressed: _showButtons)
@@ -195,9 +184,11 @@ class _MessageComposerState extends State<MessageComposer> {
               ),
               child: new Column(
                 children: <Widget>[
-                  new ImagesToSend(
+                  showMultimediaButtons ? new ImagesToSend(
                     images: _imageFiles,
                     removeImage: _removeImage,
+                  ):  new Container(
+                    child: new Text(_imageFiles.length.toString() + " image" + (_imageFiles.length  == 1 ? "" : "s")),
                   ),
                   _imageFiles.length > 0
                       ? new Divider(
@@ -261,7 +252,8 @@ class ImagesToSend extends StatelessWidget {
     int i = 0;
     return new Container(
       padding: const EdgeInsets.all(10.0),
-      child: new Column(
+      child: new ListView(
+        shrinkWrap: true,
         children: images.map((file) {
           Widget im = new SingleImage(
               image: new Image.file(file), remove: removeImage, index: i);

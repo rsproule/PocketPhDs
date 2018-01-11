@@ -1,4 +1,5 @@
-import 'dart:typed_data';
+import 'dart:async';
+import 'dart:ui' as ui;
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,26 +15,21 @@ class ChatMessage extends StatefulWidget {
   ChatMessage(
       {@required this.snapshot,
       @required this.animation,
-      @required this.currentUser,
-      this.thumbnail,
-      this.image});
+      @required this.currentUser});
 
   final DataSnapshot snapshot;
   final Animation animation;
   final User currentUser;
-  final Uint8List thumbnail;
-  final Uint8List image;
 
   @override
   _ChatMessageState createState() => new _ChatMessageState();
 }
 
 class _ChatMessageState extends State<ChatMessage> {
-  int _determineNullCount(String a, String b, String c) {
+  int _determineNullCount(String a, String b) {
     int count = 0;
     if (a == null) count++;
     if (b == null) count++;
-    if (c == null) count++;
 
     return count;
   }
@@ -44,10 +40,7 @@ class _ChatMessageState extends State<ChatMessage> {
         return w;
       }
     }
-    return new Text(
-      "Error",
-      style: new TextStyle(color: Colors.red),
-    );
+    return null;
   }
 
   void showPhoto(BuildContext context, ImageProvider image, String tag) {
@@ -90,8 +83,6 @@ class _ChatMessageState extends State<ChatMessage> {
                 onPressed: () {
                   Clipboard.setData(new ClipboardData(text: message));
                   Navigator.of(context).pop();
-
-
                 })
           ],
         ));
@@ -104,9 +95,16 @@ class _ChatMessageState extends State<ChatMessage> {
     // determine who the message is from, for displaying differences
     Map<String, dynamic> sender = widget.snapshot.value['sender'];
     bool isCurrentUserMessage = sender["id"] == widget.currentUser.userID;
+    bool messageIsSent = widget.snapshot.value['isSent'];
+
+    // dont display anything if this isnt curr user's message
+    if (!messageIsSent && !isCurrentUserMessage) {
+      return new Container();
+    }
 
     // null if the user just sent an image or file
     String message = widget.snapshot.value['message'];
+    message = message == "" ? null : message;
     Widget text = message != null
         ? new GestureDetector(
             onLongPress: () {
@@ -115,42 +113,20 @@ class _ChatMessageState extends State<ChatMessage> {
             child: new Text(message))
         : null;
     listOfWidgets.add(text);
-
     // null if regular text message
     String imageLink = widget.snapshot.value['image'];
-    Widget image = imageLink != null
-        ? widget.thumbnail != null
-            ? new Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
-                child: new GestureDetector(
-                    onTap: () {
-                      showPhoto(
-                          context,
-                          new MemoryImage(widget.image != null
-                              ? widget.image
-                              : widget.thumbnail),
-                          imageLink);
-                    },
-                    child: new Hero(
-                      tag: imageLink,
-                      child: new FadeInImage(
-                          placeholder: new AssetImage("images/loader.gif"),
-                          image: new MemoryImage(widget.thumbnail)),
-                    )))
-            : new Image.asset("images/loader.gif")
-        : null;
+    String thumbnailLink = widget.snapshot.value['thumbnail'];
 
+    Widget image;
+    if(imageLink != null) {
+      image = _getImage(imageLink, thumbnailLink, isCurrentUserMessage);
+    }
     listOfWidgets.add(image);
-
-    // null if there is no file attachment
-    String fileLink = widget.snapshot.value['file'];
-    Widget file = fileLink != null ? new Text("FILE NOT IMPLEMENTED") : null;
-    listOfWidgets.add(file);
 
     // check how many of the possible widgets are null,
     // if there is only one then dont put it inside a column
-    int nullCount = _determineNullCount(message, imageLink, fileLink);
-
+    // this ensures that the bubble wraps tightly
+    int nullCount = _determineNullCount(message, imageLink);
     //sender information
     String name = widget.snapshot.value['sender']['name'];
 //    String senderId = widget.snapshot.value['sender']['id'];
@@ -165,42 +141,125 @@ class _ChatMessageState extends State<ChatMessage> {
     //timestamp
     DateTime timestamp = new DateTime.fromMillisecondsSinceEpoch(
         widget.snapshot.value['timestamp']);
+
     Widget time = new Text(convertToTimeString(timestamp));
 
     Widget messageContent;
-    if (nullCount > 1) {
+
+    if (nullCount > 0) {
       messageContent = _getWidget(listOfWidgets);
     } else {
       messageContent = new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           image != null ? image : new Container(),
-          file != null ? file : new Container(),
           text != null ? text : new Container(),
         ],
       );
     }
+    //TODO display the image and text in seperate containers
+    if (messageContent != null) {
+      return new SizeTransition(
+        sizeFactor: new CurvedAnimation(
+            parent: widget.animation, curve: Curves.easeOut),
+        child: new MessageWrapper(
+            isOnlyPhoto: (image != null && nullCount ==  1),
+            myMessage: isCurrentUserMessage,
+            child: messageContent,
+            name: new Text(name),
+            time: time),
+      );
+    } else {
+      return new Container();
+    }
+  }
 
-    return new SizeTransition(
-      sizeFactor:
-          new CurvedAnimation(parent: widget.animation, curve: Curves.easeOut),
-      child: new MessageWrapper(
-          myMessage: isCurrentUserMessage,
-          child: messageContent,
-          name: new Text(name),
-          time: time),
-    );
+  Widget _getImage(String imageUrl, String thumbnailUrl, bool myMessage) {
+    final Radius radius = const Radius.circular(15.0);
+    final Radius noRadius = const Radius.circular(0.0);
+
+    // in process of uploading image still
+    if (imageUrl == null && myMessage) {
+      return new Container(
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.only(
+              topLeft: radius,
+              topRight: radius,
+              bottomLeft: myMessage ? radius : noRadius,
+              bottomRight: myMessage ? noRadius : radius),
+        ),
+//              child: new FadeInImage(
+//                  placeholder: new AssetImage("images/loader.gif"),
+//                  image: new NetworkImage(thumbnailUrl)
+//              ),
+        child: new Text("Uploading..."),
+      );
+    }
+
+    // case 2b: image has uploaded but thumbnail has not generated yet
+    if (thumbnailUrl == null && imageUrl != null) {
+      thumbnailUrl = imageUrl;
+      //automatically bleeds into the next
+    }
+
+    //everything has sent and is in the database
+    if (thumbnailUrl != null && imageUrl != null) {
+
+
+      return new Container(
+        margin: const EdgeInsets.only(bottom: 10.0),
+        child: new GestureDetector(
+          onTap: () {
+            showPhoto(context, new NetworkImage(imageUrl), imageUrl);
+          },
+          child: new Hero(
+            tag: imageUrl,
+            child: new Container(
+              foregroundDecoration: new BoxDecoration(
+                image: new DecorationImage(
+                  image: new NetworkImage(thumbnailUrl),
+                  fit: BoxFit.fill,
+                ),
+                borderRadius: new BorderRadius.only(
+                    topLeft: radius,
+                    topRight: radius,
+                    bottomLeft: myMessage ? radius : noRadius,
+                    bottomRight: myMessage ? noRadius : radius),
+              ),
+
+
+//              child: new FadeInImage(
+//                  placeholder: new AssetImage("images/loader.gif"),
+//                  image: new NetworkImage(thumbnailUrl),
+//
+////                  fit: BoxFit.fill,
+//
+//              ),
+            child: new Container(height: 140.0,),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return null;
   }
 }
 
 class MessageWrapper extends StatelessWidget {
   const MessageWrapper(
-      {@required this.child, @required this.myMessage, this.name, this.time});
+      {@required this.child,
+      @required this.myMessage,
+      this.name,
+      this.time,
+        this.isOnlyPhoto
+      });
 
   final Widget child;
   final bool myMessage;
   final Widget name;
   final Widget time;
-
+  final bool isOnlyPhoto;
   final Radius radius = const Radius.circular(15.0);
   final Radius noRadius = const Radius.circular(0.0);
 
@@ -235,25 +294,27 @@ class MessageWrapper extends StatelessWidget {
 
             // Text content Bubble
             new Container(
-              padding: const EdgeInsets.all(10.0),
+              padding: !this.isOnlyPhoto ? const EdgeInsets.all(10.0) : null,
               margin:
                   const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
               constraints: new BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width / 2),
-              decoration: new BoxDecoration(
-                color: this.myMessage
-                    ? Theme.of(context).backgroundColor
-                    : Colors.black12,
-                border: new Border.all(
-                  width: 1.0,
-                  color: Colors.black12,
-                ),
-                borderRadius: new BorderRadius.only(
-                    topLeft: radius,
-                    topRight: radius,
-                    bottomLeft: this.myMessage ? radius : noRadius,
-                    bottomRight: this.myMessage ? noRadius : radius),
-              ),
+              decoration: !this.isOnlyPhoto
+                  ? new BoxDecoration(
+                      color: this.myMessage
+                          ? Theme.of(context).backgroundColor
+                          : Colors.black12,
+                      border: new Border.all(
+                        width: 1.0,
+                        color: Colors.black12,
+                      ),
+                      borderRadius: new BorderRadius.only(
+                          topLeft: radius,
+                          topRight: radius,
+                          bottomLeft: this.myMessage ? radius : noRadius,
+                          bottomRight: this.myMessage ? noRadius : radius),
+                    )
+                  : null,
               child: this.child,
             ),
 

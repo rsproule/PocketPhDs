@@ -5,16 +5,27 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:pocketphds/User.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';      // new
+import 'package:firebase_analytics/firebase_analytics.dart'; // new
 
+///sendMessage:
+/// this function is responsible for sending all messages
+///
+/// case 1
+/// if the message has no image it simply adds a message to the db
+/// and updates the meta data for the chat
+///
+/// case 2
+///
+/// if there is an image or images. Each image is uploaded to the storage bucket
+/// then the corresponding URL is placed in the database. This also triggers a
+/// cloud function that will create a thumbnail of the image and then write that
+/// to the database
+///
+/// returns : true on success. false on failure
 
 Future<bool> sendMessage(
-    {String message,
-    User user,
-    String chatKey,
-    List<File> imageFiles,
-    List<File> files}) async {
-  final analytics = new FirebaseAnalytics();     // new
+    {String message, User user, String chatKey, List<File> imageFiles}) async {
+  final analytics = new FirebaseAnalytics(); // new
   analytics.logEvent(name: "sendMessage");
   DatabaseReference root = FirebaseDatabase.instance.reference();
 
@@ -23,124 +34,140 @@ Future<bool> sendMessage(
 
   var timestamp = new DateTime.now().millisecondsSinceEpoch;
 
-//  List<String> imageUrls = [];
-//  if (imageFiles.length > 0) {
-//    List<Future<String>> imageFutures = [];
-//    //create the iterable of type future
-//    imageFiles.forEach((file) {
-//      imageFutures.add(uploadFile(file));
-//    });
-//
-//    // waits for all the futures to return a list of their results(Strings)
-//    imageUrls = await Future.wait(imageFutures);
-//    imageUrls.remove("FILE TOO BIG");
-//  }
-
-  if (message != "") {
-    // send string up to cloud for some cleaning
-
-  }
-  List<String> fileCloudRefs = [];
-  if (files.length > 0) {
-    List<Future<String>> _fileFutures = [];
-    files.forEach((file) {
-      _fileFutures.add(uploadFile(file, ""));
-    });
-
-    fileCloudRefs = await Future.wait(_fileFutures);
-  }
-
-  if (imageFiles.length + fileCloudRefs.length < 2 &&
-      imageFiles.length + fileCloudRefs.length > 0) {
-    DatabaseReference msgRef = messages.push();
-
-    await msgRef.set({
-      "message": message.length > 0 ? message : null,
-      "timestamp": timestamp,
-      "image": imageFiles.length > 0 ? "saving.gif" : null,
-      "thumbnail": imageFiles.length > 0 ? "saving.gif" : null,
-      "file": fileCloudRefs.length > 0 ? fileCloudRefs[0] : null,
-      "sender": {"name": user.name, "id": user.userID}
-    });
-
-    if (imageFiles.length > 0) {
-      // upload the only image
-      uploadFile(imageFiles[0], msgRef.path);
-    }
-  } else {
+  /// CASE 1:
+  // There was no image, only a text message
+  if (imageFiles.length < 1) {
+    // check to make sure there actually is an image
     if (message.length > 0) {
+      // write the message to the db and wait till completed
       await messages.push().set({
+        "isSent": true,
         "message": message,
         "timestamp": timestamp,
         "sender": {"name": user.name, "id": user.userID}
       });
-    } else {
-      return false;
+
+      //update the meta information
+      if (message.length > 20) {
+        //if its a long message only take the first 17 characters
+        message = message.substring(0, 17).padRight(3, "...");
+      }
+
+      var users = (await chat.child("users").once()).value;
+      String type = (await chat.child("type").once()).value;
+      String name = (await chat.child("name").once()).value;
+
+      // add the current user to the list of users for notifying
+      users[user.userID] = true;
+
+      // need to set in order to trigger the notification
+      await chat.set({
+        "sender": user.userID,
+        "isActive": true,
+        "lastMessage": user.name + ": " + message,
+        "timestamp": timestamp,
+        "users": users,
+        "type": type,
+        "name": name
+      });
+
+      // All done return true to signify success.
+      return true;
     }
+  }
+
+  /// CASE 2:
+  // Sanity check:
+  if (imageFiles.length > 0) {
+
 
     //upload all the images
     imageFiles.forEach((file) async {
-      String path = await saveImage(messages, user);
-      uploadFile(file, path);
+
+      bool isLast = (file == imageFiles[imageFiles.length-1]);
+
+      // save the message to the database
+      DatabaseReference path = await writeImageMessageToDB(
+          messageRef: messages,
+          user: user,
+          message: message,
+          includeMessage: isLast);
+
+      // now upload each of them
+      uploadFile(
+          imageFile: file,
+          path: path);
     });
 
-    // upload all the files
-    List<Future<bool>> fileSaveJobs = [];
-    fileCloudRefs.forEach((url) {
-      fileSaveJobs.add(saveFile(url, messages, user));
+    // update the meta information:
+
+    if (message.length > 20) {
+      message = message.substring(0, 17).padRight(3, "...");
+    }
+    // Need to update the meta info on the chat
+    String preview = message != "" ? message : "[Image]";
+
+    var users = (await chat.child("users").once()).value;
+    String type = (await chat.child("type").once()).value;
+    String name = (await chat.child("name").once()).value;
+    users[user.userID] = true;
+
+    // need to set in order to trigger the notification
+    await chat.set({
+      "sender": user.userID,
+      "isActive": true,
+      "lastMessage": user.name + ": " + preview,
+      "timestamp": timestamp,
+      "users": users,
+      "type": type,
+      "name": name
     });
 
-    await Future.wait(fileSaveJobs);
+    return true;
   }
 
-  if (message.length > 20) {
-    message = message.substring(0, 17).padRight(3, "...");
-  }
-  // Need to update the meta info on the chat
-  String preview =
-      message != "" ? message : imageFiles.length > 0 ? "[Image]" : "[File]";
-
-  var users = (await chat.child("users").once()).value;
-
-  String type = (await chat.child("type").once()).value;
-  String name = (await chat.child("name").once()).value;
-  users[user.userID] = true;
-  // need to set in order to trigger the notification
-  await chat.set({
-    "sender" : user.userID,
-    "isActive" : true,
-    "lastMessage" : user.name + ": " + preview,
-    "timestamp" : timestamp,
-    "users" : users,
-    "type" : type,
-    "name" : name
-  });
-
-  return true;
+  // case where it fell all the way through. must have some failure
+  return false;
 }
 
-Future<String> uploadFile(File f, String path) async {
+uploadFile(
+    {File imageFile,
+    DatabaseReference path}) {
   int random = new Random().nextInt(1000000);
-  String safePath = path.replaceAll("/", "%");
+  String safePath = path.path.replaceAll("/", "&");
   String filename = "file_" + random.toString() + "<#>$safePath.jpg";
   StorageReference ref = FirebaseStorage.instance.ref().child(filename);
 
-  StorageUploadTask uploadTask = ref.put(f);
+  StorageUploadTask uploadTask = ref.put(imageFile);
 
-  await uploadTask.future;
-  return filename;
+  uploadTask.future.then((UploadTaskSnapshot snap) {
+    //write the download url to the database
+    String downloadUrl = snap.downloadUrl.toString();
+
+
+
+    path.child("image").set(downloadUrl);
+
+    path.update({
+      "isSent": true,
+    });
+  });
 }
 
-Future<String> saveImage(DatabaseReference ref, User user) async {
-  DatabaseReference path = ref.push();
+Future<DatabaseReference> writeImageMessageToDB(
+    {DatabaseReference messageRef,
+    User user,
+    String message,
+    bool includeMessage}) async {
+  DatabaseReference path = messageRef.push();
 
   path.set({
     "timestamp": new DateTime.now().millisecondsSinceEpoch,
-    "image": "saving.gif",
-    "image_thumbnail": "saving.gif",
+    "isSent": false,
+    "message": includeMessage ? (message != "" ? message : null) : null,
     "sender": {"name": user.name, "id": user.userID}
   });
-  return path.path;
+  return path;
 }
 
 Future<bool> saveFile(String url, DatabaseReference ref, User user) async {
