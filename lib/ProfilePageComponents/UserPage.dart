@@ -137,9 +137,7 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     ImageProvider photo = profileImageUrl != null
         ? new NetworkImage(profileImageUrl)
-        : this.newImage != null
-            ? new Image.file(newImage)
-            : new AssetImage("images/loader.gif");
+        : null;
 
     TextStyle titleTheme = Theme.of(context).textTheme.title;
 
@@ -157,17 +155,39 @@ class _HeaderState extends State<Header> {
               new GestureDetector(
                 child: new Hero(
                   tag: "ProfilePicture",
-                  child: new CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: photo,
-                    child: this.newImage == null && this.profileImageUrl == null
-                        ? new Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 40.0,
-                          )
-                        : new Container(),
-                  ),
+                    child: profileImageUrl != null ?  new Container(
+                      height: 75.0,
+                      width: 75.0,
+
+                      child: new Material(
+                        child: new Container(
+                          child: new FadeInImage(
+                              placeholder: new AssetImage("images/loader.gif") ,
+                              image: photo,
+                              fit: BoxFit.cover,
+                          ),
+                        ),
+                        borderRadius: new BorderRadius.circular(37.5),
+                        elevation: 1.0,
+                      ),
+                    ) :
+                    new CircleAvatar(
+                      child: new Text(widget.user.name.substring(0, 2).toUpperCase()),
+                      radius: 37.5,
+                    )
+                    ,
+
+//                  child: new CircleAvatar(
+//                    radius: 50.0,
+//                    backgroundImage: photo,
+//                    child: this.newImage == null && this.profileImageUrl == null
+//                        ? new Icon(
+//                            Icons.person,
+//                            color: Colors.white,
+//                            size: 40.0,
+//                          )
+//                        : new Container(),
+//                  ),
                 ),
                 onTap: () {
                   photo.runtimeType != Container

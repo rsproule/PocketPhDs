@@ -37,7 +37,7 @@ Future<bool> sendMessage(
   /// CASE 1:
   // There was no image, only a text message
   if (imageFiles.length < 1) {
-    // check to make sure there actually is an image
+    // check to make sure there actually is a message
     if (message.length > 0) {
       // write the message to the db and wait till completed
       await messages.push().set({
@@ -61,6 +61,7 @@ Future<bool> sendMessage(
       users[user.userID] = true;
 
       // need to set in order to trigger the notification
+      print("Should Send Not");
       await chat.set({
         "sender": user.userID,
         "isActive": true,
@@ -74,6 +75,7 @@ Future<bool> sendMessage(
       // All done return true to signify success.
       return true;
     }
+    return false;
   }
 
   /// CASE 2:
@@ -160,7 +162,6 @@ Future<DatabaseReference> writeImageMessageToDB(
     String message,
     bool includeMessage}) async {
   DatabaseReference path = messageRef.push();
-
   path.set({
     "timestamp": new DateTime.now().millisecondsSinceEpoch,
     "isSent": false,

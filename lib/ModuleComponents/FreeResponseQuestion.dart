@@ -118,6 +118,7 @@ class _FreeResponseQuestionState extends State<FreeResponseQuestion> {
                 padding: const EdgeInsets.all(10.0),
                 alignment: new Alignment(-1.0, -1.0),
                 child: new TextField(
+
                   controller: this.responseController,
                   focusNode: _textFocusNode,
                   onChanged: (v) {
@@ -126,7 +127,9 @@ class _FreeResponseQuestionState extends State<FreeResponseQuestion> {
                   maxLines: null,
                   decoration: new InputDecoration(
                     hintText: "Enter response here.",
-                    hideDivider: true,
+                    border: null,
+
+//                    hideDivider: true,
                     counterText: responseController.text.length.toString(),
                   ),
                 ),

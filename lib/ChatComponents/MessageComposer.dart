@@ -171,8 +171,7 @@ class _MessageComposerState extends State<MessageComposer> {
           new Expanded(
             child: new Container(
               margin: const EdgeInsets.all(5.0),
-              padding:
-                  const EdgeInsets.only(left: 15.0, bottom: 4.0, right: 15.0),
+              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
               decoration: new BoxDecoration(
                 border: new Border.all(
                   width: 1.0,
@@ -188,23 +187,40 @@ class _MessageComposerState extends State<MessageComposer> {
                     images: _imageFiles,
                     removeImage: _removeImage,
                   ):  new Container(
-                    child: new Text(_imageFiles.length.toString() + " image" + (_imageFiles.length  == 1 ? "" : "s")),
+                    child: _imageFiles.length > 0 ?
+                    new Text(_imageFiles.length.toString() + " image" + (_imageFiles.length  == 1 ? "" : "s"))
+                        : null,
                   ),
                   _imageFiles.length > 0
                       ? new Divider(
                           height: 0.0,
                         )
                       : new Container(),
-                  new TextField(
-                    style: new TextStyle(fontSize: 20.0, color: Colors.black),
-                    controller: _messageText,
-                    onChanged: _handleChange,
-                    focusNode: _textInputNode,
-                    maxLines: showMultimediaButtons ? 1 : null,
-                    keyboardType: TextInputType.multiline,
-                    decoration: new InputDecoration(
-                      hideDivider: true,
-                      hintText: "Send Message",
+                  new Container(
+                    constraints: new BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height/2.6
+                    ),
+                    child: new ListView(
+                     shrinkWrap: true,
+                      reverse: true,
+
+                      children: <Widget>[
+                        new TextField(
+                          
+                          style: new TextStyle(fontSize: 20.0, color: Colors.black),
+                          controller: _messageText,
+                          onChanged: _handleChange,
+                          focusNode: _textInputNode,
+                          maxLines: showMultimediaButtons ? 1 : null,
+                          keyboardType: TextInputType.multiline,
+                          decoration: new InputDecoration(
+                            border: null,
+                            hintText: "Send Message",
+                            contentPadding: const EdgeInsets.only(top: 11.0, bottom: 11.0)
+                          ),
+                          
+                        ),
+                      ],
                     ),
                   ),
                   error
