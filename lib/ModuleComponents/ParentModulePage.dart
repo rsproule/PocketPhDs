@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketphds/ModuleComponents/LessonsPage.dart';
+import 'package:pocketphds/ModuleComponents/Module.dart';
 import 'package:pocketphds/User.dart';
 
 // here get the student object associated with the parent
@@ -88,7 +89,7 @@ class _ParentModulePageState extends State<ParentModulePage> {
                         title: new Text(user.name),
                         leading: new Icon(Icons.school),
                         subtitle: new Text(
-                            user.modules.length.toString() + " Modules"),
+                            getModuleCount(user.modules).toString() + " Modules"),
                       ),
                       new Divider(
                         height: 0.0,
@@ -102,5 +103,17 @@ class _ParentModulePageState extends State<ParentModulePage> {
         : new Center(
             child: new CircularProgressIndicator(),
           );
+  }
+
+  getModuleCount(Map<String, dynamic> moduleClasses) {
+    int count = 0;
+
+    moduleClasses.forEach((k, c) {
+
+      Map<String, dynamic> modules = c['modules'];
+      count += modules.keys.length;
+    });
+
+    return count;
   }
 }

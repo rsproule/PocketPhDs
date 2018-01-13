@@ -61,7 +61,6 @@ Future<bool> sendMessage(
       users[user.userID] = true;
 
       // need to set in order to trigger the notification
-      print("Should Send Not");
       await chat.set({
         "sender": user.userID,
         "isActive": true,

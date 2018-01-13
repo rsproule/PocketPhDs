@@ -26,6 +26,10 @@ class StudentHomePage extends StatefulWidget {
 class _StudentHomePageState extends State<StudentHomePage> {
   Module currentModule;
   bool hasLoaded = false;
+  String tipTitle;
+  String tipBody;
+
+  bool tipHasLoaded = false;
 
   @override
   void initState() {
@@ -39,6 +43,16 @@ class _StudentHomePageState extends State<StudentHomePage> {
           hasLoaded = true;
         });
       }
+    });
+
+    DatabaseReference tipRef =
+        FirebaseDatabase.instance.reference().child("tipOfDay");
+    tipRef.once().then((snap) {
+      setState(() {
+        tipTitle = snap.value['title'];
+        tipBody = snap.value['body'];
+        tipHasLoaded = true;
+      });
     });
   }
 
@@ -88,15 +102,10 @@ class _StudentHomePageState extends State<StudentHomePage> {
             ),
           ),
 
-          new TipOfTheDay(
-            title: "Get enough sleep to de-toxify your brain",
-            body: "The advice to get enough sleep before an exam or important"
-                " performance is age-old, but it is not often accompanied by "
-                "a strong rationale of why this is important. When we sleep, our"
-                " brain cells shrink a little, allowing toxins that accumulate in"
-                " the brain to wash out. Explaining this helps us to put the proper"
-                " value on getting a good night’s rest.",
-          ),
+          tipHasLoaded ? new TipOfTheDay(
+            title: this.tipTitle,
+            body: this.tipBody,
+          ) : new Center(child: new CircularProgressIndicator(),),
 
           new Divider(),
 
@@ -194,7 +203,7 @@ class ModuleCard extends StatelessWidget {
     int total = currentModule.questionCount + 1; // plus one for video
     int c = 0;
     if (currentModule.videoWatched) c++;
-    if(currentModule.responses != null) {
+    if (currentModule.responses != null) {
       c += currentModule.responses.length;
     }
     return (c / total);
@@ -262,10 +271,10 @@ class ModuleCard extends StatelessWidget {
                     }),
               ),
               new Row(children: <Widget>[
-                new Text(
-                    ( (value * 100).toString().length > 4 ?
-                    (value * 100).toString().substring(0, 4) :
-                    (value * 100).toString()) + "% Complete"),
+                new Text(((value * 100).toString().length > 4
+                        ? (value * 100).toString().substring(0, 4)
+                        : (value * 100).toString()) +
+                    "% Complete"),
                 new Expanded(child: new Container()),
                 dueDateMessage
               ]),
@@ -310,51 +319,54 @@ class _StudentViewState extends State<StudentView> {
     super.initState();
 
     // will query all  the modules
-    moduleListener = fire
+    fire
         .child("users")
         .child(widget.currentUser.firebase_user.uid)
         .child("modules")
-        .onChildAdded
-        .listen((e) {
-      DataSnapshot modSnap = e.snapshot;
+        .once()
+        .then((modSnap) {
       if (modSnap.value != null) {
-        Module m = loadInStudentModule(modSnap);
-
-        setState(() {
-          this.modules[modSnap.key] = m;
-        });
+        loadInStudentModule(modSnap);
       }
     });
   }
 
-  Module loadInStudentModule(DataSnapshot modSnap) {
-    String key = modSnap.key;
-    String name = modSnap.value['name'];
-    String description = modSnap.value['description'];
-    bool quizTaken = modSnap.value['quizTaken'];
-    bool videoWatched = modSnap.value['videoWatched'];
-    DateTime dueDate =
-        new DateTime.fromMillisecondsSinceEpoch(modSnap.value['dueDate']);
-    int questionCount = modSnap.value['questionCount'];
-    var responses = modSnap.value['responses'];
+  void loadInStudentModule(DataSnapshot snapshot) {
+    String classKey = snapshot.key;
+    Map<String, dynamic> modsMap = snapshot.value['modules'];
 
-    Module m = new Module(
-        name: name,
-        description: description,
-        quizTaken: quizTaken,
-        videoWatched: videoWatched,
-        key: key,
-        currentUserId: widget.currentUser.firebase_user.uid,
-        dueDate: dueDate,
-        questionCount: questionCount,
-        responses: responses);
+    List<Widget> tiles = [];
+    modsMap.forEach((key, modSnap) {
+      String name = modSnap['name'];
+      String description = modSnap['description'];
+      bool quizTaken = modSnap['quizTaken'];
+      bool videoWatched = modSnap['videoWatched'];
+      DateTime dueDate =
+          new DateTime.fromMillisecondsSinceEpoch(modSnap['dueDate']);
+      int questionCount = modSnap['questionCount'];
+      var responses = modSnap['responses'];
 
-    return m;
+      Module m = new Module(
+          name: name,
+          description: description,
+          quizTaken: quizTaken,
+          videoWatched: videoWatched,
+          key: key,
+          currentUserId: widget.currentUser.firebase_user.uid,
+          dueDate: dueDate,
+          questionCount: questionCount,
+          responses: responses);
+
+      this.setState(() {
+        this.modules[key] = m;
+      });
+    });
+
+//    return m;
   }
 
   @override
   void dispose() {
-    moduleListener.cancel();
     super.dispose();
   }
 

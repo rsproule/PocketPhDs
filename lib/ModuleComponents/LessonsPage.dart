@@ -29,35 +29,50 @@ class _LessonsPageState extends State<LessonsPage> {
 
     return new FirebaseAnimatedList(
         primary: true,
-        query: modules.orderByChild("dueDate"),
-        itemBuilder: (_, DataSnapshot snap, Animation<double> anim, i) {
-          bool videoWatched = snap.value['videoWatched'];
-          bool quizTaken = snap.value['quizTaken'];
-          String name = snap.value['name'];
-          String title = snap.value['title'];
-          String description = snap.value['description'];
-          DateTime dueDate =
-              new DateTime.fromMillisecondsSinceEpoch(snap.value['dueDate']);
-          bool isUnlocked =
-              dueDate.difference(new DateTime.now()) < new Duration(days: 7);
+        query: modules,
+        itemBuilder: (_, DataSnapshot snapshot, Animation<double> anim, i) {
+          String classKey = snapshot.key;
+          Map<String, dynamic> modsMap = snapshot.value['modules'];
+          String className = snapshot.value['className'];
 
-          String moduleKey = snap.key;
+          List<Widget> tiles = [];
+          modsMap.forEach((key, snap){
 
-          if (!isUnlocked) {
-            return buildLockedTile(dueDate.subtract(new Duration(days: 7)));
-          }
 
-          return buildUnlockedTile(
-              user: widget.currentUser,
-              videoWatched: videoWatched,
-              quizTaken: quizTaken,
-              description: description,
-              name: name,
-              title: title,
-              context: context,
-              moduleKey: moduleKey,
-              dueDate: dueDate,
-              canEdit : widget.canEdit
+              bool videoWatched = snap['videoWatched'];
+              bool quizTaken = snap['quizTaken'];
+              String name = snap['name'];
+              String title = snap['title'];
+              String description = snap['description'];
+              DateTime dueDate =
+                  new DateTime.fromMillisecondsSinceEpoch(snap['dueDate']);
+              bool isUnlocked =
+                  dueDate.difference(new DateTime.now()) < new Duration(days: 7);
+
+              String moduleKey = key;
+
+              if (!isUnlocked) {
+                tiles.add(buildLockedTile(dueDate.subtract(new Duration(days: 7))));
+              }else {
+                tiles.add(buildUnlockedTile(
+                    user: widget.currentUser,
+                    videoWatched: videoWatched,
+                    quizTaken: quizTaken,
+                    description: description,
+                    name: name,
+                    title: title,
+                    context: context,
+                    moduleKey: moduleKey,
+                    dueDate: dueDate,
+                    canEdit: widget.canEdit,
+                    classKey : classKey,
+                    className : className
+                ));
+              }
+          });
+
+          return new Column(
+            children: tiles,
           );
         });
   }
@@ -94,7 +109,9 @@ Widget buildUnlockedTile(
     bool quizTaken,
     User user,
     DateTime dueDate,
-    bool canEdit}) {
+    bool canEdit,
+    String classKey,
+    String className}) {
 
   bool isOverDue = new DateTime.now().isAfter(dueDate);
   bool isComplete = quizTaken && videoWatched;
@@ -118,7 +135,7 @@ Widget buildUnlockedTile(
                 size: 40.0,
               ) : null,
               title: new Text(name, style: new TextStyle(color: Colors.blue),),
-              subtitle: new Text(title),
+              subtitle: new Text(title + " (Class: $className)"),
               trailing: new Text(
                 "Due: \n" +
                     convertToTimeString(dueDate,
@@ -138,7 +155,8 @@ Widget buildUnlockedTile(
                       videoWatched: videoWatched,
                       quizTaken: quizTaken,
                       currentUser: user,
-                      canEdit : canEdit
+                      canEdit : canEdit,
+                      classKey: classKey,
                   );
                 }));
               },

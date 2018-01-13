@@ -14,6 +14,7 @@ import 'package:video_launcher/video_launcher.dart';
 class ModulePage extends StatefulWidget {
   ModulePage(
       {@required this.name,
+        @required this.classKey,
       @required this.moduleKey,
       @required this.videoWatched,
       @required this.quizTaken,
@@ -23,6 +24,7 @@ class ModulePage extends StatefulWidget {
 
   final String name;
   final String moduleKey;
+  final String classKey;
   bool videoWatched;
   bool quizTaken;
   User currentUser;
@@ -64,8 +66,12 @@ class _ModulePageState extends State<ModulePage> {
           .child("users")
           .child(widget.currentUser.userID)
           .child("modules")
+          .child(widget.classKey)
+          .child("modules")
           .child(widget.moduleKey);
-      await ref.child("videoWatched").set(true);
+      if(widget.canEdit) {
+        await ref.child("videoWatched").set(true);
+      }
     } else {
       showDialog(
           context: context,
@@ -107,6 +113,8 @@ class _ModulePageState extends State<ModulePage> {
           .child("users")
           .child(widget.currentUser.userID)
           .child("modules")
+          .child(widget.classKey)
+          .child("modules")
           .child(widget.moduleKey);
 
       // mark both quiz and module as complete
@@ -124,6 +132,8 @@ class _ModulePageState extends State<ModulePage> {
         .reference()
         .child("users")
         .child(widget.currentUser.userID)
+        .child("modules")
+        .child(widget.classKey)
         .child("modules")
         .child(widget.moduleKey);
 

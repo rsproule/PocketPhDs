@@ -110,57 +110,5 @@ class _ParentChatState extends State<ParentChat> {
           ],
         )
     );
-
-//        new Scaffold(
-//          appBar: new AppBar(
-//            bottom: new TabBar(tabs: [new Tab(text: "Students"), new Tab(text: "Brain Coach",)]),
-//          ),
-//          body: new TabBarView(children: [
-//            new ListView(
-//              children: students.values.map((u) {
-//                return new Column(
-//                  children: <Widget>[
-//                    new ListTile(
-//                      title: new Text(u.name + "'s Chat with Brain Coach"),
-//                      leading: new Icon(Icons.chat),
-//                      onTap: () {
-//                        _openChat(u);
-//                      },
-//                      subtitle: new Text("Mirror only. You cannot send messages."),
-//                    ),
-//                    new Divider(
-//                      height: 0.0,
-//                    )
-//                  ],
-//                );
-//              }).toList(),
-//            ),
-//            new Chat(
-//              currentUser: widget.currentUser,
-//              chatKey: widget.currentUser.chatId,
-//            )
-//          ]),
-//        ));
-    //    return new DefaultTabController(
-//      length: 2,
-
-//      child: new ListView(
-//        shrinkWrap: true,
-//        primary: false,
-//        children: <Widget>[
-//          new TabBar(
-//            tabs: <Widget>[
-//              new Tab(
-//                text: "Student",
-//              ),
-//              new Tab(
-//                text: "Brain Coach",
-//              )
-//            ],
-//          ),
-//          new TabBarView(children: <Widget>[new Text("1"), new Text("2")]),
-//        ],
-//      ),
-//    );
   }
 }

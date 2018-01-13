@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketphds/Homepages/StudentHomePage.dart';
 import 'package:pocketphds/User.dart';
@@ -11,6 +12,27 @@ class TutorHomePage extends StatefulWidget {
 }
 
 class _TutorHomePageState extends State<TutorHomePage> {
+  String tipTitle;
+  String tipBody;
+
+  bool hasLoaded = false;
+
+  initState(){
+    super.initState();
+
+    DatabaseReference tipRef = FirebaseDatabase.instance.reference().child("tipOfDay");
+    tipRef.once().then((snap) {
+      print("loaded");
+      setState((){
+        tipTitle = snap.value['title'];
+        tipBody = snap.value['body'];
+        hasLoaded = true;
+      });
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return new CustomScrollView(
@@ -56,15 +78,10 @@ class _TutorHomePageState extends State<TutorHomePage> {
                   style: Theme.of(context).textTheme.headline,
                 ),
               ),
-              new TipOfTheDay(
-                title: "Get enough sleep to de-toxify your brain",
-                body: "The advice to get enough sleep before an exam or important"
-                    " performance is age-old, but it is not often accompanied by "
-                    "a strong rationale of why this is important. When we sleep, our"
-                    " brain cells shrink a little, allowing toxins that accumulate in"
-                    " the brain to wash out. Explaining this helps us to put the proper"
-                    " value on getting a good night’s rest.",
-              ),
+              hasLoaded ? new TipOfTheDay(
+                title: this.tipTitle,
+                body: this.tipBody,
+              ) : new Center(child: new CircularProgressIndicator(),),
               new Divider(),
               new Container(
                   padding: const EdgeInsets.all(10.0),
