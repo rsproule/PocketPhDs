@@ -31,7 +31,15 @@ class _HomeState extends State<Home> {
       user = null;
       currentUser = null;
     });
-
+    ensureLoggedIn(currentUser, context).then((fbUser) {
+      if (fbUser != null) {
+        getUser(fbUser).then((myUser) {
+          setState(() {
+            this.user = myUser;
+          });
+        });
+      }
+    });
     return true;
   }
 
@@ -40,7 +48,7 @@ class _HomeState extends State<Home> {
   @override
   initState() {
     super.initState();
-    authListener = _auth.onAuthStateChanged.listen((user) {
+//    authListener = _auth.onAuthStateChanged.listen((user) {
       ensureLoggedIn(currentUser, context).then((fbUser) {
         if (fbUser != null) {
           getUser(fbUser).then((myUser) {
@@ -50,14 +58,14 @@ class _HomeState extends State<Home> {
           });
         }
       });
-    });
+//    });
 
   }
 
   @override
   dispose() {
     //dispose of listeners
-    authListener.cancel();
+//    authListener.cancel();
     super.dispose();
   }
 

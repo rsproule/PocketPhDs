@@ -34,12 +34,28 @@ class _StudentHomePageState extends State<StudentHomePage> {
   @override
   void initState() {
     super.initState();
+    print(widget.modulesMap.length);
+    if(widget.modulesMap.length < 1){
+      setState((){
+        hasLoaded = true;
+      });
+      return;
+    }
 
     widget.modulesMap.forEach((k, m) {
-      //
+      Module main;
       if (!(m.videoWatched && m.quizTaken)) {
+        main = currentModule;
+        if(currentModule != null){
+          if(m.dueDate.isBefore(currentModule.dueDate)){
+            main = m;
+          }
+        }else{
+          main = m;
+        }
+
         setState(() {
-          currentModule = m;
+          currentModule = main;
           hasLoaded = true;
         });
       }
@@ -311,6 +327,8 @@ class _StudentViewState extends State<StudentView> {
   //module listener to the students modules
   StreamSubscription moduleListener;
 
+  bool loaded = false;
+
   //reference to the firebase database
   DatabaseReference fire = FirebaseDatabase.instance.reference();
 
@@ -334,7 +352,9 @@ class _StudentViewState extends State<StudentView> {
   void loadInStudentModule(DataSnapshot snapshot) {
 //    String classKey = snapshot.key;
 //    Map<String, dynamic> modsMap = snapshot.value['modules'];
-
+    setState((){
+      loaded = true;
+    });
     Map classesMap = snapshot.value;
 
     classesMap.forEach((k, v) {
@@ -384,7 +404,7 @@ class _StudentViewState extends State<StudentView> {
 
   @override
   Widget build(BuildContext context) {
-    if (modules.length > 0) {
+    if (this.loaded) {
       return new StudentHomePage(
           modulesMap: modules,
           currentUser: widget.currentUser,
@@ -392,5 +412,6 @@ class _StudentViewState extends State<StudentView> {
     } else {
       return new Center(child: new CircularProgressIndicator());
     }
+
   }
 }

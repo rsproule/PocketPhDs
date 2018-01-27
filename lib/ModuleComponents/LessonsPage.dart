@@ -30,15 +30,13 @@ class _LessonsPageState extends State<LessonsPage> {
     return new FirebaseAnimatedList(
         primary: true,
         query: modules,
-        sort: (DataSnapshot a, DataSnapshot b){
-          return a.value['dueDate'] - b.value['dueDate'];
-        },
+
         itemBuilder: (_, DataSnapshot snapshot, Animation<double> anim, i) {
           String classKey = snapshot.key;
           Map<String, dynamic> modsMap = snapshot.value['modules'];
           String className = snapshot.value['className'];
 
-          List<Widget> tiles = [];
+          List<Map<DateTime, Widget>> tiles = [];
           modsMap.forEach((key, snap){
 
 
@@ -55,9 +53,13 @@ class _LessonsPageState extends State<LessonsPage> {
               String moduleKey = key;
 
               if (!isUnlocked) {
-                tiles.add(buildLockedTile(dueDate.subtract(new Duration(days: 7))));
+                Map<DateTime, Widget> tile = new Map();
+                tile[dueDate] = buildLockedTile(dueDate.subtract(new Duration(days: 7)));
+                tiles.add(tile);
               }else {
-                tiles.add(buildUnlockedTile(
+                Map<DateTime, Widget> tile = new Map();
+
+                tile[dueDate] = (buildUnlockedTile(
                     user: widget.currentUser,
                     videoWatched: videoWatched,
                     quizTaken: quizTaken,
@@ -71,11 +73,17 @@ class _LessonsPageState extends State<LessonsPage> {
                     classKey : classKey,
                     className : className
                 ));
+                tiles.add(tile);
               }
           });
 
+          tiles.sort(( a,  b) {
+            return a.keys.first.difference(b.keys.first).inMilliseconds;
+          });
           return new Column(
-            children: tiles,
+            children: tiles.map((m) {
+              return m.values.first;
+            }).toList()
           );
         });
   }

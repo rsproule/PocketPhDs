@@ -29,6 +29,16 @@ class _ModuleWrapperState extends State<ModuleWrapper> {
       currentUser = null;
     });
 
+    ensureLoggedIn(currentUser, context).then((fbUser) {
+      if (fbUser != null) {
+        getUser(fbUser).then((myUser) {
+          setState(() {
+            this.user = myUser;
+          });
+        });
+      }
+    });
+
     return true;
   }
 
@@ -37,7 +47,7 @@ class _ModuleWrapperState extends State<ModuleWrapper> {
   @override
   initState() {
     super.initState();
-    authListener = _auth.onAuthStateChanged.listen((user) {
+//    authListener = _auth.onAuthStateChanged.listen((user) {
       ensureLoggedIn(currentUser, context).then((FirebaseUser fbUser) {
         if (fbUser != null) {
           getUser(fbUser).then((myUser) {
@@ -47,13 +57,13 @@ class _ModuleWrapperState extends State<ModuleWrapper> {
           });
         }
       });
-    });
+//    });
   }
 
   @override
   dispose() {
     //dispose of listeners
-    authListener.cancel();
+//    authListener.cancel();
 
     super.dispose();
   }

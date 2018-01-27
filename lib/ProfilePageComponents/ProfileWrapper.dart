@@ -28,6 +28,16 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       user = null;
       currentUser = null;
     });
+    ensureLoggedIn(currentUser, context).then((fbUser) {
+      if (fbUser != null) {
+        getUser(fbUser).then((myUser) {
+          setState(() {
+            this.user = myUser;
+          });
+        });
+      }
+    });
+
 
     return true;
   }
@@ -37,7 +47,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   @override
   initState() {
     super.initState();
-    authListener = _auth.onAuthStateChanged.listen((user) {
+//    authListener = _auth.onAuthStateChanged.listen((user) {
       ensureLoggedIn(currentUser, context).then((fbUser) {
         if (fbUser != null) {
           getUser(fbUser).then((myUser) {
@@ -47,7 +57,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           });
         }
       });
-    });
+//    });
   }
 
 
@@ -55,7 +65,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   @override
   dispose() {
     //dispose of listeners
-    authListener.cancel();
+//    authListener.cancel();
 
     super.dispose();
   }
