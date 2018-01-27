@@ -40,6 +40,10 @@ class _SelectQuestionState extends State<SelectQuestion> {
     if(!widget.question.submitted){
       //update database
       widget.question.response.ref.child(option).set(isSelected);
+
+      //hide keyboard if it was open
+      FocusScope.of(context).requestFocus(new FocusNode());
+
       //update UI
       setState((){
         selected[option] = isSelected;
@@ -131,9 +135,9 @@ class _SelectQuestionState extends State<SelectQuestion> {
   @override
   Widget build(BuildContext context) {
     String question = widget.question.question;
-    if (!question.endsWith("?")) {
-      question += "?";
-    }
+//    if (!question.endsWith("?")) {
+//      question += "?";
+//    }
     List<Widget> options = _getOptions(widget.question.options);
 
     return new Container(

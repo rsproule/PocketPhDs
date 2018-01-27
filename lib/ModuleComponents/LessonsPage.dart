@@ -30,6 +30,9 @@ class _LessonsPageState extends State<LessonsPage> {
     return new FirebaseAnimatedList(
         primary: true,
         query: modules,
+        sort: (DataSnapshot a, DataSnapshot b){
+          return a.value['dueDate'] - b.value['dueDate'];
+        },
         itemBuilder: (_, DataSnapshot snapshot, Animation<double> anim, i) {
           String classKey = snapshot.key;
           Map<String, dynamic> modsMap = snapshot.value['modules'];

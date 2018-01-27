@@ -94,9 +94,9 @@ class _FreeResponseQuestionState extends State<FreeResponseQuestion> {
   @override
   Widget build(BuildContext context) {
     String question = widget.question.question;
-    if (!question.endsWith("?")) {
-      question += "?";
-    }
+//    if (!question.endsWith("?")) {
+//      question += "?";
+//    }
 
     return new Container(
       margin: const EdgeInsets.only(bottom: 50.0, top: 15.0),

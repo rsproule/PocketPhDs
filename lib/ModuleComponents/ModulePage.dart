@@ -101,6 +101,7 @@ class _ModulePageState extends State<ModulePage> {
                   moduleKey: widget.moduleKey,
                   canEdit: widget.canEdit,
                   moduleName: widget.name,
+                  classKey: widget.classKey,
                   submitted: this.quizTaken);
             }));
 

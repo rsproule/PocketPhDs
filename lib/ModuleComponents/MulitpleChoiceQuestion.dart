@@ -40,6 +40,7 @@ class _MultipleChoiceQuestionState extends State<MultipleChoiceQuestion> {
 
     if (!widget.question.submitted) {
       await widget.question.response.ref.set(val);
+      FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
         currentChoice = val;
@@ -114,9 +115,9 @@ class _MultipleChoiceQuestionState extends State<MultipleChoiceQuestion> {
   @override
   Widget build(BuildContext context) {
     String question = widget.question.question;
-    if (!question.endsWith("?")) {
-      question += "?";
-    }
+//    if (!question.endsWith("?")) {
+//      question += "?";
+//    }
 
 
     List<Widget> options = _getOptions(widget.question.options);

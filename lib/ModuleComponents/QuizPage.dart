@@ -10,12 +10,14 @@ import 'package:pocketphds/User.dart';
 class QuizPage extends StatefulWidget {
   QuizPage(
       {@required this.user,
+        @required this.classKey,
       @required this.moduleKey,
       @required this.canEdit,
       @required this.moduleName,
       @required this.submitted});
 
   final User user;
+  final String classKey;
   final String moduleKey;
   bool canEdit;
   final String moduleName;
@@ -34,7 +36,8 @@ class _QuizPageState extends State<QuizPage> {
         context: context,
         child: new AlertDialog(
           title: new Text("Are you sure you are ready to submit?"),
-          content: new Text("You will not be able to edit this quiz after you submit."),
+          content: new Text("Your responses will be visible to your teacher and "
+              "you will not be able to edit this quiz after you submit."),
           actions: [
             new PlatformButton(
                 child: new Text("Cancel"),
@@ -76,6 +79,8 @@ class _QuizPageState extends State<QuizPage> {
             .reference()
             .child("users")
             .child(widget.user.userID)
+            .child("modules")
+            .child(widget.classKey)
             .child("modules")
             .child(widget.moduleKey)
             .child("responses")

@@ -106,42 +106,42 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - firebase_analytics (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-0.2.0/ios`)
-  - firebase_auth (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.4.0/ios`)
-  - firebase_core (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.0.2/ios`)
-  - firebase_database (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.3.1/ios`)
-  - firebase_messaging (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.1.0/ios`)
-  - firebase_storage (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_storage-0.1.0/ios`)
+  - firebase_analytics (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-0.2.1/ios`)
+  - firebase_auth (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.4.2/ios`)
+  - firebase_core (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.0.4/ios`)
+  - firebase_database (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.3.3/ios`)
+  - firebase_messaging (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.1.2/ios`)
+  - firebase_storage (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_storage-0.1.1/ios`)
   - Flutter (from `/Users/ryansproule/Documents/FlutterApps/flutter/bin/cache/artifacts/engine/ios`)
   - flutter_webview_plugin (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/flutter_webview_plugin-0.0.9+1/ios`)
-  - google_sign_in (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/google_sign_in-2.0.0/ios`)
-  - image_picker (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/image_picker-0.2.0/ios`)
-  - url_launcher (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/url_launcher-2.0.0/ios`)
+  - google_sign_in (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/google_sign_in-2.0.1/ios`)
+  - image_picker (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/image_picker-0.2.1/ios`)
+  - url_launcher (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/url_launcher-2.0.1/ios`)
   - video_launcher (from `/Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/video_launcher-0.3.0/ios`)
 
 EXTERNAL SOURCES:
   firebase_analytics:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-0.2.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-0.2.1/ios
   firebase_auth:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.4.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.4.2/ios
   firebase_core:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.0.2/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.0.4/ios
   firebase_database:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.3.1/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.3.3/ios
   firebase_messaging:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.1.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-0.1.2/ios
   firebase_storage:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_storage-0.1.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/firebase_storage-0.1.1/ios
   Flutter:
     :path: /Users/ryansproule/Documents/FlutterApps/flutter/bin/cache/artifacts/engine/ios
   flutter_webview_plugin:
     :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/flutter_webview_plugin-0.0.9+1/ios
   google_sign_in:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/google_sign_in-2.0.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/google_sign_in-2.0.1/ios
   image_picker:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/image_picker-0.2.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/image_picker-0.2.1/ios
   url_launcher:
-    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/url_launcher-2.0.0/ios
+    :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/url_launcher-2.0.1/ios
   video_launcher:
     :path: /Users/ryansproule/.pub-cache/hosted/pub.dartlang.org/video_launcher-0.3.0/ios
 

@@ -332,35 +332,47 @@ class _StudentViewState extends State<StudentView> {
   }
 
   void loadInStudentModule(DataSnapshot snapshot) {
-    String classKey = snapshot.key;
-    Map<String, dynamic> modsMap = snapshot.value['modules'];
+//    String classKey = snapshot.key;
+//    Map<String, dynamic> modsMap = snapshot.value['modules'];
 
-    List<Widget> tiles = [];
-    modsMap.forEach((key, modSnap) {
-      String name = modSnap['name'];
-      String description = modSnap['description'];
-      bool quizTaken = modSnap['quizTaken'];
-      bool videoWatched = modSnap['videoWatched'];
-      DateTime dueDate =
-          new DateTime.fromMillisecondsSinceEpoch(modSnap['dueDate']);
-      int questionCount = modSnap['questionCount'];
-      var responses = modSnap['responses'];
+    Map classesMap = snapshot.value;
 
-      Module m = new Module(
-          name: name,
-          description: description,
-          quizTaken: quizTaken,
-          videoWatched: videoWatched,
-          key: key,
-          currentUserId: widget.currentUser.firebase_user.uid,
-          dueDate: dueDate,
-          questionCount: questionCount,
-          responses: responses);
+    classesMap.forEach((k, v) {
+      Map<String, dynamic> modsMap = classesMap[k]['modules'];
 
-      this.setState(() {
-        this.modules[key] = m;
+
+
+      List<Widget> tiles = [];
+      modsMap.forEach((key, modSnap) {
+        String name = modSnap['name'];
+        String description = modSnap['description'];
+        bool quizTaken = modSnap['quizTaken'];
+        bool videoWatched = modSnap['videoWatched'];
+        DateTime dueDate =
+        new DateTime.fromMillisecondsSinceEpoch(modSnap['dueDate']);
+        int questionCount = modSnap['questionCount'];
+        var responses = modSnap['responses'];
+
+        Module m = new Module(
+            name: name,
+            description: description,
+            quizTaken: quizTaken,
+            videoWatched: videoWatched,
+            key: key,
+            currentUserId: widget.currentUser.firebase_user.uid,
+            dueDate: dueDate,
+            questionCount: questionCount,
+            responses: responses);
+
+        this.setState(() {
+          this.modules[key] = m;
+        });
       });
+
+
+
     });
+
 
 //    return m;
   }
