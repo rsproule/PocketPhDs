@@ -84,15 +84,16 @@ class _TutorHomePageState extends State<TutorHomePage> {
               ) : new Center(child: new CircularProgressIndicator(),),
               new Divider(),
               new Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: new Text(
-                    "Whatever else we want to put on the Tutor"
-                        " home page: \n "
-                        "ideas: \n "
-                        "- some stats about the platform \n"
-                        "- some stats about the students",
-                    style: Theme.of(context).textTheme.title,
-                  ))
+//                  padding: const EdgeInsets.all(10.0),
+//                  child: new Text(
+//                    "Whatever else we want to put on the Tutor"
+//                        " home page: \n "
+//                        "ideas: \n "
+//                        "- some stats about the platform \n"
+//                        "- some stats about the students",
+//                    style: Theme.of(context).textTheme.title,
+//                  )
+              )
             ]))
       ],
     );

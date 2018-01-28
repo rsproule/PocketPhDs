@@ -1,4 +1,4 @@
-package com.yourcompany.pocketphds;
+package com.ryansprouleapps.pocketphds;
 
 import android.os.Bundle;
 
@@ -9,7 +9,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import android.support.annotation.NonNull;
-import android.util.SparseArray;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -22,11 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry;
+
 import java.util.Map;
 
 public class MainActivity extends FlutterActivity {

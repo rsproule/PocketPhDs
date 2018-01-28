@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:548424482224:android:c1dc1d4ff5958903",
         "android_client_info": {
-          "package_name": "com.yourcompany.pocketphd2"
+          "package_name": "com.ryansprouleapps.pocketphd2"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "548424482224-1oqf3vdk0ljtj1bj29v2v2unbm5v28is.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.yourcompany.pocketphd2",
+            "package_name": "com.ryansprouleapps.pocketphd2",
             "certificate_hash": "f6146daa9a52d643a482c1feb446b8aff2b27817"
           }
         },
@@ -61,7 +61,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:548424482224:android:8254c5cb22b2ca1b",
         "android_client_info": {
-          "package_name": "com.yourcompany.pocketphds"
+          "package_name": "com.ryansprouleapps.pocketphds"
         }
       },
       "oauth_client": [
@@ -69,7 +69,7 @@
           "client_id": "548424482224-cdoattrk53vscgja8k26oho732cv22ke.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.yourcompany.pocketphds",
+            "package_name": "com.ryansprouleapps.pocketphds",
             "certificate_hash": "f6146daa9a52d643a482c1feb446b8aff2b27817"
           }
         },

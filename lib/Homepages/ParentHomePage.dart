@@ -85,16 +85,17 @@ class _ParentHomePageState extends State<ParentHomePage> {
           ) : new Center(child: new CircularProgressIndicator(),),
           new Divider(),
           new Container(
-              padding: const EdgeInsets.all(10.0),
-              child: new Text(
-                "Whatever else we want to put on the parent"
-                    " home page: \n "
-                    "ideas: \n "
-                    "- some stats about the platform \n"
-                    "- some stats about learning in general \n"
-                    "- info about parents role in students learning experience",
-                style: Theme.of(context).textTheme.title,
-              ))
+//              padding: const EdgeInsets.all(10.0),
+//              child: new Text(
+//                "Whatever else we want to put on the parent"
+//                    " home page: \n "
+//                    "ideas: \n "
+//                    "- some stats about the platform \n"
+//                    "- some stats about learning in general \n"
+//                    "- info about parents role in students learning experience",
+//                style: Theme.of(context).textTheme.title,
+//              )
+          )
         ]))
       ],
     );
