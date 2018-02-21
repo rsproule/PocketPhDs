@@ -21,13 +21,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   _forgotPassword() async {
     String email = _emailTextController.text;
-    /// TODO : make the platfrom channels for this
-
+    if(email == ""){
+      setState(() {
+        hasError = true;
+        errorMessage = "Email can't be blank";
+      });
+      return;
+    }
     try {
         var sentEmail = await platform.invokeMethod('sendResetPasswordEmail',
             <String, String> {
               'email' : email
             });
+        print(sentEmail);
+        
         // deals with when we return an int instead of bool
         bool sent = sentEmail.runtimeType == int ? (sentEmail == 1) : sentEmail;
 
@@ -43,7 +50,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           errorMessage = "";
         });
       }else {
-        // print("Not sent");
         setState(() {
           hasError = true;
           errorMessage = "This email account does not have a Pocket PhDs account.";
@@ -74,13 +80,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: new ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                  new TextFormField(
-                    decoration: const InputDecoration(
-                      icon: const Icon(Icons.email),
-                      hintText: 'you@domain.com',
-                      labelText: 'Enter your E-mail',
+                  new Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: new TextFormField(
+                      decoration: const InputDecoration(
+                        icon: const Icon(Icons.email),
+                        hintText: 'you@domain.com',
+                        labelText: 'Enter your E-mail',
+                      ),
+                      controller: _emailTextController,
                     ),
-                    controller: _emailTextController,
                   ),
                   new Center(
                     child: new Container(

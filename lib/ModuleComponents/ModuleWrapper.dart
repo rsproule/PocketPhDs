@@ -83,7 +83,7 @@ class _ModuleWrapperState extends State<ModuleWrapper> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Brain Modules"),
+        title: new Text("Brain Boosters"),
       ),
       drawer: new AppDrawer(logOut: logOut),
       body: this.user != null

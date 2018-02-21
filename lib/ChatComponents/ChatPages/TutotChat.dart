@@ -79,16 +79,13 @@ class TutorChatList extends StatelessWidget {
   }
 
 
-@override
+  @override
   Widget build(BuildContext context) {
-    return
-        new FirebaseAnimatedList(
+    return new FirebaseAnimatedList(
           query: chats,
           sort: (a, b) {
             return b.value['timestamp'] - a.value['timestamp'];
           },
-
-
           itemBuilder: (_, snapshot, animation, index){
             DateTime timestamp = new DateTime.fromMillisecondsSinceEpoch(snapshot.value['timestamp']);
             bool isActive = snapshot.value['isActive'] != null ? snapshot.value['isActive'] : false;

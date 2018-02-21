@@ -34,7 +34,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
   @override
   void initState() {
     super.initState();
-    print(widget.modulesMap.length);
     if(widget.modulesMap.length < 1){
       setState((){
         hasLoaded = true;
@@ -128,7 +127,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
           new Container(
             padding: const EdgeInsets.only(left: 15.0, top: 15.0),
             child: new Text(
-              "Current Module: ",
+              "Current Brain Booster: ",
               style: Theme.of(context).textTheme.headline,
             ),
           ),
@@ -137,7 +136,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               : new Container(
                   padding: const EdgeInsets.all(30.0),
                   child: new Text(
-                    "No current modules. You are all caught up!",
+                    "No current Brain Booster. You are all caught up!",
                     style: Theme.of(context).textTheme.title,
                     textAlign: TextAlign.center,
                   ),
@@ -279,7 +278,7 @@ class ModuleCard extends StatelessWidget {
                     color: Colors.blue,
                     padding: const EdgeInsets.all(15.0),
                     child: new Text(
-                      "Open Modules",
+                      "Open Brain Boosters",
                       style: new TextStyle(color: Colors.white),
                     ),
                     onPressed: () {

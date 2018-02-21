@@ -12,15 +12,7 @@ import android.support.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.*;
 
 import java.util.Map;
 
@@ -34,7 +26,6 @@ public class MainActivity extends FlutterActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
-//    FirebaseApp.initializeApp(registrar.context());
 
 
 
@@ -42,9 +33,9 @@ public class MainActivity extends FlutterActivity {
             new MethodCallHandler() {
               @Override
               public void onMethodCall(MethodCall call, Result result) {
-                if(call.method.equals("sendPasswordResetEmail")) {
-                  handleSendPasswordResetEmail(call, result);
-                }
+                  if(call.method.equals("sendResetPasswordEmail")) {
+                    handleSendPasswordResetEmail(call, result);
+                  }
               }
             });
 

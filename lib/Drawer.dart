@@ -74,7 +74,7 @@ class _DrawerState extends State<AppDrawer> {
               ),
               !widget.isTutor
                   ? new DrawerItem(
-                      title: "Brain Modules",
+                      title: "Brain Boosters",
                       icon: Icons.lightbulb_outline,
                       route: '/modules',
                     )

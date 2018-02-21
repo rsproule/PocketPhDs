@@ -100,7 +100,7 @@ Widget buildLockedTile(DateTime unlockDate) {
         child: new Card(
           child: new ListTile(
             leading: new Icon(Icons.lock),
-            title: new Text("Module is not unlocked yet."),
+            title: new Text("Brain Booster is not unlocked yet."),
             subtitle: new Text("Unlocks: " +
                 convertToTimeString(unlockDate, abbreviated: true)),
           ),

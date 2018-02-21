@@ -24,7 +24,6 @@ class _ParentHomePageState extends State<ParentHomePage> {
 
     DatabaseReference tipRef = FirebaseDatabase.instance.reference().child("tipOfDay");
     tipRef.once().then((snap) {
-      print("loaded");
       setState((){
         tipTitle = snap.value['title'];
         tipBody = snap.value['body'];
